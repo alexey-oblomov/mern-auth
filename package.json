@@ -2,19 +2,30 @@
   "name": "mern_auth",
   "version": "0.1.0",
   "private": true,
+  "main": "app.js",
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
+    "bcryptjs": "^2.4.3",
+    "config": "^3.3.1",
+    "express": "^4.17.1",
+    "express-validator": "^6.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.24",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node app.js",
+    "server": "nodemon app.js",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "stylelint": "stylelint /*.{css,scss,sass}",
+    "stylelint:fix": "stylelint /*.{css,scss,sass} --fix",
+    "eslint": "eslint  /*.{js,jsx}",
+    "eslint:fix": "eslint  /*.{js,jsx} --fix",
+    "eslint:fix:layout": "eslint  /*.{js,jsx} --fix --fix-type layout",
+    "lint": "npm run eslint & npm run stylelint",
+    "lint:fix": "npm run eslint:fix & npm run stylelint:fix",
+    "prettier": "prettier /**/*.*"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -29,6 +40,75 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "concurrently": "^5.2.0",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-jsx-a11y": "^6.3.0",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "nodemon": "^2.0.4",
+    "prettier": "2.0.5",
+    "stylelint": "^13.6.1",
+    "stylelint-config-recommended": "^3.0.0"
+  },
+  "stylelint": {
+    "extends": "stylelint-config-recommended"
+  },
+  "prettier": {
+    "overrides": [
+      {
+        "files": "src/**/*.{js,jsx,ts,tsx,json}",
+        "options": {
+          "arrowParens": "avoid",
+          "bracketSpacing": false,
+          "jsxBracketSameLine": false,
+          "jsxSingleQuote": false,
+          "printWidth": 100,
+          "proseWrap": "always",
+          "quoteProps": "as-needed",
+          "semi": true,
+          "singleQuote": true,
+          "tabWidth": 2,
+          "trailingComma": "es5",
+          "useTabs": false
+        }
+      },
+      {
+        "files": [
+          "src/**/*/{css,scss,sass,less}"
+        ],
+        "options": {
+          "bracketSpacing": true,
+          "printWidth": 80,
+          "singleQuote": false,
+          "tabWidth": 2,
+          "useTabs": false
+        }
+      }
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{css,scss,sass,less,js,jsx,json}": [
+      "prettier --write",
+      "git add"
+    ],
+    "src/**/*.{js,jsx}": [
+      "eslint --fix --fix-type layout",
+      "git add"
+    ],
+    "src/**/*.{css,scss,sass,less}": [
+      "stylelint"
     ]
   }
 }
